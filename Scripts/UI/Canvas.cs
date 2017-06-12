@@ -18,7 +18,7 @@ namespace uGUIs.UI {
       setupCanvas();
       setupScaler();
 
-      scanParts();
+      scanUI();
     }
 
     void setupCanvas(){
@@ -52,12 +52,12 @@ namespace uGUIs.UI {
       scalerComponent.apply(scalerAttr);
     }
 
-    void scanParts(){
+    void scanUI(){
       var flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
       var fields = typeof(T).GetFields(flags);
-      var partsInfo = fields.Where((x)=>typeof(UIBase).IsAssignableFrom(x.FieldType));
+      var uiInfo = fields.Where((x)=>typeof(UIBase).IsAssignableFrom(x.FieldType));
 
-      partsInfo.ToList().ForEach((x)=>{
+      uiInfo.ToList().ForEach((x)=>{
         var ui = x.GetValue(this) as UIBase;
         ui.init(x, canvas.transform);
       });

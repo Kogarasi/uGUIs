@@ -17,15 +17,12 @@ namespace uGUIs.UI {
     [Anchor(0,0,1,1)]
     [Color(0,0,0,1)]
     [Size(0,0)]
+    [ObjectName("Text")]
     Text innerText;
-
-    public override void init(FieldInfo fieldInfo, Transform parent){
-      base.init(fieldInfo, parent);
-    }
 
     public override UnityEngine.UI.Button create(string name, Transform parent){
       var button = base.create(name, parent);
-      var image = button.gameObject.AddComponent<Image>();
+      var image = button.gameObject.AddComponent<UnityEngine.UI.Image>();
       button.image = image;
 
       return button;
@@ -39,6 +36,12 @@ namespace uGUIs.UI {
       innerText.setText(text);
     }
 
+    [Connect(typeof(PositionAttribute))]
+    public void applyPosition(PositionAttribute attr){
+      var rect = ui.GetComponent<RectTransform>();
+      rect.localPosition = attr.position;
+    }
+    
     [Connect(typeof(SizeAttribute))]
     public void applySize(SizeAttribute attr){
       var rect = ui.GetComponent<RectTransform>();

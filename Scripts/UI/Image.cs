@@ -1,30 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 using uGUIs.Attribute;
 
 namespace uGUIs.UI {
-
-  [Font("Arial.ttf", true)]
-  public class Text : UI<Text, UnityEngine.UI.Text> {
-    
-    public void setText(string text){
-      ui.text = text;
-    }
-
-    [Connect(typeof(FontAttribute))]
-    public void applyFont(FontAttribute attr){
-      ui.font = attr.font;
-    }
-
-    [Connect(typeof(AlignmentAttribute))]
-    public void applyAlignment(AlignmentAttribute attr){
-      ui.alignment = attr.alignment;
-    }
+  public class Image : UI<Image, UnityEngine.UI.Image> {
 
     [Connect(typeof(ColorAttribute))]
     public void applyColor(ColorAttribute attr){
@@ -36,7 +17,7 @@ namespace uGUIs.UI {
       var rect = ui.GetComponent<RectTransform>();
       rect.localPosition = attr.position;
     }
-    
+
     [Connect(typeof(SizeAttribute))]
     public void applySize(SizeAttribute attr){
       var rect = ui.GetComponent<RectTransform>();
