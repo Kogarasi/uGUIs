@@ -20,15 +20,11 @@ namespace uGUIs.UI {
     [ObjectName("Text")]
     Text innerText;
 
-    public override UnityEngine.UI.Button create(string name, Transform parent){
-      var button = base.create(name, parent);
-      var image = button.gameObject.AddComponent<UnityEngine.UI.Image>();
-      button.image = image;
-
-      return button;
+    public override void init(FieldInfo fieldInfo, Transform parent){
+      base.init(fieldInfo, parent);
     }
 
-    void creataText(string text){
+    void bindText(string text){
       var fieldinfo = typeof(Button).GetField("innerText", BindingFlags.NonPublic|BindingFlags.Instance);
 
       innerText = new Text();
@@ -50,7 +46,7 @@ namespace uGUIs.UI {
 
     [Connect(typeof(TextAttribute))]
     public void applyText(TextAttribute attr){
-      creataText(attr.text);
+      bindText(attr.text);
     }
   }
 }

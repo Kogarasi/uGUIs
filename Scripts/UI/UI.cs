@@ -10,27 +10,30 @@ namespace uGUIs.UI {
     protected U ui;
 
     public override void init(FieldInfo fieldInfo, Transform parent){
-      var name = fieldInfo.Name;
-      var nameAttr = Util.Attribute.getAttribute<Attribute.ObjectNameAttribute>(typeof(T));
-      if(nameAttr != null){
-        name = nameAttr.name;
-      }
-
+      var name = getObjectName(fieldInfo);
       var partsTransform = parent.Find(name);
       if(partsTransform != null){
         ui = partsTransform.GetComponent<U>();
       } else {
-        ui = create(name, parent);
+        throw new Exception("Can't find GameObject(" + name + ")");
       }
 
       applyAttribute(fieldInfo);
     }
 
-    public virtual U create(string name, Transform parent){
-      var go = new GameObject(name, typeof(U));
-      go.transform.SetParent(parent, false);
+    string getObjectName(FieldInfo fieldInfo){
+      var name = fieldInfo.Name;
+      var classAttr = Util.Attribute.getAttribute<Attribute.ObjectNameAttribute>(typeof(T));
+      if(classAttr != null){
+        name = classAttr.name;
+      }
 
-      return go.GetComponent<U>();
+      var fieldAttr = Util.Attribute.getAttributes<Attribute.ObjectNameAttribute>(fieldInfo);
+      if(fieldAttr.Any()){
+        name = fieldAttr.First().name;
+      }
+
+      return name;      
     }
 
     void applyAttribute(FieldInfo fieldInfo){
