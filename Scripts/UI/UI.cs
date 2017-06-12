@@ -4,9 +4,10 @@ using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace uGUIs.UI {
-  public class UI<T,U>: UIBase where T: UI<T,U> where U: MonoBehaviour {
+  public class UI<T,U>: UIBase where T: UI<T,U> where U: UIBehaviour {
     protected U ui;
 
     public override void init(FieldInfo fieldInfo, Transform parent){
@@ -15,7 +16,10 @@ namespace uGUIs.UI {
       if(partsTransform != null){
         ui = partsTransform.GetComponent<U>();
       } else {
-        throw new Exception("Can't find GameObject(" + name + ")");
+        var optional = Util.Attribute.getAttributes<Attribute.OptionalAttribute>(fieldInfo);
+        if(!optional.Any()){
+          throw new Exception("Can't find GameObject(" + name + ")");
+        }
       }
 
       applyAttribute(fieldInfo);

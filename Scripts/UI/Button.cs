@@ -9,28 +9,11 @@ using uGUIs.Attribute;
 
 namespace uGUIs.UI {
 
-  [Text("Button")]
-  [Size(160,30)]
   public class Button : UI<Button, UnityEngine.UI.Button> {
 
-    [Alignment(TextAnchor.MiddleCenter)]
-    [Anchor(0,0,1,1)]
-    [Color(0,0,0,1)]
-    [Size(0,0)]
     [ObjectName("Text")]
+    [Optional]
     Text innerText;
-
-    public override void init(FieldInfo fieldInfo, Transform parent){
-      base.init(fieldInfo, parent);
-    }
-
-    void bindText(string text){
-      var fieldinfo = typeof(Button).GetField("innerText", BindingFlags.NonPublic|BindingFlags.Instance);
-
-      innerText = new Text();
-      innerText.init(fieldinfo, ui.transform);
-      innerText.setText(text);
-    }
 
     [Connect(typeof(PositionAttribute))]
     public void applyPosition(PositionAttribute attr){
@@ -47,6 +30,14 @@ namespace uGUIs.UI {
     [Connect(typeof(TextAttribute))]
     public void applyText(TextAttribute attr){
       bindText(attr.text);
+    }
+
+    void bindText(string text){
+      var fieldinfo = typeof(Button).GetField("innerText", BindingFlags.NonPublic|BindingFlags.Instance);
+
+      innerText = new Text();
+      innerText.init(fieldinfo, ui.transform);
+      innerText.setText(text);
     }
   }
 }

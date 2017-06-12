@@ -9,10 +9,10 @@ using uGUIs.Attribute;
 
 namespace uGUIs.UI {
 
-  [Font("Arial.ttf", true)]
   public class Text : UI<Text, UnityEngine.UI.Text> {
     
     public void setText(string text){
+      if(ui==null)return;
       ui.text = text;
     }
 
