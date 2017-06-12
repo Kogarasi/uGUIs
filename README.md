@@ -12,6 +12,7 @@ uGUIを利用するのを便利にするツール群
 Create UI Button from GameObject->UI->Button
 
 ```
+[ObjectName("Canvas")]
 public class SampleCanvas: uGUIs.UI.Canvas<SampleCanvas> {
   [Size(300,300)]
   uGUIs.UI.Button Button = new uGUIs.UI.Button(); // name-based binding.
