@@ -5,22 +5,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace uGUIs.UI {
-  public class Button : UI<UnityEngine.UI.Button> {
+using uGUIs.Attribute;
 
-    [Attribute.Alignment(TextAnchor.MiddleCenter)]
-    [Attribute.Anchor(0,0,1,1)]
-    [Attribute.Color(0,0,0,1)]
-    [Attribute.Size(0,0)]
+namespace uGUIs.UI {
+
+  [Text("Button")]
+  [Size(160,30)]
+  public class Button : UI<Button, UnityEngine.UI.Button> {
+
+    [Alignment(TextAnchor.MiddleCenter)]
+    [Anchor(0,0,1,1)]
+    [Color(0,0,0,1)]
+    [Size(0,0)]
     Text innerText;
 
     public override void init(FieldInfo fieldInfo, Transform parent){
       base.init(fieldInfo, parent);
-
-      var textAttr = Util.Attribute.getAttributes<Attribute.TextAttribute>(fieldInfo);
-      if(textAttr.Any()){
-        creataText(textAttr.First().text);
-      }
     }
 
     public override UnityEngine.UI.Button create(string name, Transform parent){
@@ -37,6 +37,17 @@ namespace uGUIs.UI {
       innerText = new Text();
       innerText.init(fieldinfo, ui.transform);
       innerText.setText(text);
+    }
+
+    [Connect(typeof(SizeAttribute))]
+    public void applySize(SizeAttribute attr){
+      var rect = ui.GetComponent<RectTransform>();
+      rect.sizeDelta = attr.size;
+    }
+
+    [Connect(typeof(TextAttribute))]
+    public void applyText(TextAttribute attr){
+      creataText(attr.text);
     }
   }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace uGUIs.Attribute {
 
-  [AttributeUsage(AttributeTargets.Field, AllowMultiple=false)]
+  [AttributeUsage(AttributeTargets.Class | AttributeTargets.Field, AllowMultiple=false)]
   public class AnchorAttribute : System.Attribute {
     public Vector2 min;
     public Vector2 max;

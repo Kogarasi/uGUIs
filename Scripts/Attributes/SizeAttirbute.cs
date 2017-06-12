@@ -1,15 +1,14 @@
 ﻿using System;
+using UnityEngine;
 
 namespace uGUIs.Attribute {
 
-  [AttributeUsage(AttributeTargets.Field, AllowMultiple=false)]
+  [AttributeUsage(AttributeTargets.Class | AttributeTargets.Field, AllowMultiple=false)]
   public class SizeAttribute : System.Attribute {
-    public float width;
-    public float height;
+    public Vector2 size;
 
     public SizeAttribute(float width, float height){
-      this.width = width;
-      this.height = height;
+      this.size = new Vector2(width, height);
     }
   }
 }
