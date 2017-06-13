@@ -27,6 +27,6 @@ public class SampleCanvas: uGUIs.UI.Canvas {
 
 ### Advanced
 
-1. together your code without Canvas Component
+1. use ui component in your code without Canvas Component
 2. inherit-class for UI Components
 
