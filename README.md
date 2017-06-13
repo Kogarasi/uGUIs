@@ -13,14 +13,14 @@ uGUIを利用するのを便利にするツール群
 * Attach this Script to Canvas Object
 
 ```csharp
+using uGUIs.Attribute;
 
-[uGUIs.Attribute.ObjectName("Canvas")]
 public class SampleCanvas: uGUIs.UI.Canvas {
-  [uGUIs.Attribute.Size(300,300)]
-  [uGUIs.Attribute.Identifier(1)] // Set anything object for callback.
+  [Size(300,300)]
+  [Identifier(1)] // Set anything object for callback.
   uGUIs.UI.Button Button = new uGUIs.UI.Button(); // name-based binding.
   
-  [uGUis.Attribute.Callback(typeof(uGUIs.UI.Button), 1] // 2nd Parameter is identifier.
+  [Callback(typeof(uGUIs.UI.Button), 1] // 2nd Parameter is identifier.
   void onClickCallback(object identifier){
     Debug.Log("Clicked");
   }
