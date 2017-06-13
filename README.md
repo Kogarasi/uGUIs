@@ -9,7 +9,8 @@ uGUIを利用するのを便利にするツール群
 
 ### Basic
 
-Create UI Button from GameObject->UI->Button
+* Create UI Button from GameObject->UI->Button
+* Attach this Script to Canvas Object
 
 ```
 [uGUIs.Attribute.ObjectName("Canvas")]
