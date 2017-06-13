@@ -12,7 +12,7 @@ uGUIを利用するのを便利にするツール群
 * Create UI Button from GameObject->UI->Button
 * Attach this Script to Canvas Object
 
-```
+```csharp
 public class SampleCanvas: uGUIs.UI.Canvas {
   [uGUIs.Attribute.Size(300,300)]
   [Identifier(1)] // Set anything object for callback.
