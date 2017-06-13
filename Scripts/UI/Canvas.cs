@@ -11,7 +11,7 @@ using uGUIs.Extension;
 namespace uGUIs.UI {
 
   //[ExecuteInEditMode]
-  public class Canvas<T> : MonoBehaviour where T: Canvas<T> {
+  public class Canvas : MonoBehaviour {
     public UnityEngine.Canvas canvas;
 
     void Awake(){
@@ -44,7 +44,7 @@ namespace uGUIs.UI {
 
     void scanUI(){
       var flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
-      var fields = typeof(T).GetFields(flags);
+      var fields = this.GetType().GetFields(flags);
       var uiInfo = fields.Where((x)=>typeof(UIBase).IsAssignableFrom(x.FieldType));
 
       uiInfo.ToList().ForEach((x)=>{

@@ -14,7 +14,7 @@ uGUIを利用するのを便利にするツール群
 
 ```
 [uGUIs.Attribute.ObjectName("Canvas")]
-public class SampleCanvas: uGUIs.UI.Canvas<SampleCanvas> {
+public class SampleCanvas: uGUIs.UI.Canvas {
   [uGUIs.Attribute.Size(300,300)]
   uGUIs.UI.Button Button = new uGUIs.UI.Button(); // name-based binding.
 }
