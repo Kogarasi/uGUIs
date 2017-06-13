@@ -5,12 +5,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 using uGUIs.Attribute;
 
 namespace uGUIs.UI {
   public class UI<T,U>: UIBase where T: UI<T,U> where U: UIBehaviour {
-    protected U ui;
+    public U ui;
     protected object identifier;
 
     public override void init(FieldInfo fieldInfo, MonoBehaviour parent){
@@ -101,6 +102,17 @@ namespace uGUIs.UI {
       var rect = ui.GetComponent<RectTransform>();
       rect.anchorMin = attr.min;
       rect.anchorMax = attr.max;
+    }
+
+    [Connect(typeof(OutlineAttribute))]
+    public void applyOutline(OutlineAttribute attr){
+      var outline = ui.GetComponent<Outline>();
+      if(outline == null){
+        outline = ui.gameObject.AddComponent<Outline>();
+      }
+
+      outline.effectColor = attr.color;
+      outline.effectDistance = attr.distance;
     }
   }
 }

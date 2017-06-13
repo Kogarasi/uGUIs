@@ -7,25 +7,25 @@ namespace uGUIs.Attribute {
 
   [AttributeUsage(AttributeTargets.Class | AttributeTargets.Field, AllowMultiple=false)]
   public class ColorTintAttribute : System.Attribute {
-    public Type normalColor { get; set; }
-    public Type highlightedColor { get; set; }
-    public Type pressedColor { get; set; }
-    public Type disabledColor { get; set; }
+    public Type normal { get; set; }
+    public Type highlighted { get; set; }
+    public Type pressed { get; set; }
+    public Type disabled { get; set; }
 
     public Color getNormalColor(){
-      return convertColor(normalColor);
+      return convertColor(normal);
     }
 
     public Color getHighlightedColor(){
-      return convertColor(highlightedColor);
+      return convertColor(highlighted);
     }
 
     public Color getPressedColor(){
-      return convertColor(pressedColor);
+      return convertColor(pressed);
     }
 
     public Color getDisabledColor(){
-      return convertColor(disabledColor);
+      return convertColor(disabled);
     }
 
     Color convertColor(Type type){
