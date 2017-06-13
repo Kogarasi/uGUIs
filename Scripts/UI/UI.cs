@@ -10,9 +10,9 @@ namespace uGUIs.UI {
   public class UI<T,U>: UIBase where T: UI<T,U> where U: UIBehaviour {
     protected U ui;
 
-    public override void init(FieldInfo fieldInfo, Transform parent){
+    public override void init(FieldInfo fieldInfo, MonoBehaviour parent){
       var name = getObjectName(fieldInfo);
-      var partsTransform = parent.Find(name);
+      var partsTransform = parent.transform.Find(name);
       if(partsTransform != null){
         ui = partsTransform.GetComponent<U>();
       } else {

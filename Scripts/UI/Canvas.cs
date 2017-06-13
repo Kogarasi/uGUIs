@@ -22,17 +22,7 @@ namespace uGUIs.UI {
     }
 
     void setupCanvas(){
-      if(canvas==null){
-        var canvasName = typeof(T).Name;
-        Debug.Log(canvasName);
-        var nameAttr = getAttribute<Attribute.ObjectNameAttribute>();
-        if(nameAttr != null){
-          canvasName = nameAttr.name;
-        }
-
-        var canvasList = FindObjectsOfType(typeof(UnityEngine.Canvas)) as UnityEngine.Canvas[];
-        canvas = canvasList.Where(x => x.name == canvasName).FirstOrDefault();      
-      }
+      canvas = GetComponent<UnityEngine.Canvas>();
 
       var renderModeAttr = getAttribute<Attribute.RenderModeAttribute>();
       if(renderModeAttr != null){
@@ -59,7 +49,7 @@ namespace uGUIs.UI {
 
       uiInfo.ToList().ForEach((x)=>{
         var ui = x.GetValue(this) as UIBase;
-        ui.init(x, canvas.transform);
+        ui.init(x, this);
       });
     }
 
