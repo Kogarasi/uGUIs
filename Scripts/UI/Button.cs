@@ -56,8 +56,9 @@ namespace uGUIs.UI {
     }
 
     void bindCallback(MonoBehaviour parent){
+      var flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
       var type = parent.GetType();
-      var methods = type.GetMethods();
+      var methods = type.GetMethods(flags);
       var attributeType = typeof(CallbackAttribute);
 
       var callbackMethod = methods.Where((x)=>{
