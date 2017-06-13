@@ -1,11 +1,5 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Reflection;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UI;
 
 using uGUIs.Attribute;
 
@@ -37,7 +31,7 @@ namespace uGUIs.UI {
     }
 
     void bindCallback(MonoBehaviour parent){
-      var callbackMethod = getCallbackMethod(parent, typeof(Button));
+      var callbackMethod = getCallbackMethod(parent, typeof(Slider));
       if(callbackMethod != null){
         ui.onClick.AddListener(()=>{
           callbackMethod.Invoke(parent, new object[]{this.identifier});
