@@ -1,19 +1,14 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UI;
 
 using uGUIs.Attribute;
 
 namespace uGUIs.UI {
+  public class Toggle : UI<Toggle, UnityEngine.UI.Toggle> {
 
-  public class Button : UI<Button, UnityEngine.UI.Button> {
-
-    [ObjectName("Text")]
+    [ObjectName("Label")]
     [Optional]
     Text innerText;
 
@@ -29,7 +24,7 @@ namespace uGUIs.UI {
     }
 
     void bindText(string text){
-      var fieldInfo = Util.Expression.getInfo<Button,FieldInfo>(c=>c.innerText);
+      var fieldInfo = Util.Expression.getInfo<Toggle,FieldInfo>(c=>c.innerText);
 
       innerText = new Text();
       innerText.init(fieldInfo, ui);
@@ -37,13 +32,12 @@ namespace uGUIs.UI {
     }
 
     void bindCallback(MonoBehaviour parent){
-      var callbackMethod = getCallbackMethod(parent, typeof(Button));
+      var callbackMethod = getCallbackMethod(parent, typeof(Toggle));
       if(callbackMethod != null){
-        ui.onClick.AddListener(()=>{
-          callbackMethod.Invoke(parent, new object[]{this.identifier});
+        ui.onValueChanged.AddListener((isOn)=>{
+          callbackMethod.Invoke(parent, new object[]{this.identifier, isOn});
         });
       }
     }
-
   }
 }

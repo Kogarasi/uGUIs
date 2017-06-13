@@ -21,6 +21,11 @@ namespace uGUIs.UI {
       ui.font = attr.font;
     }
 
+    [Connect(typeof(FontSizeAttribute))]
+    public void applyFontSize(FontSizeAttribute attr){
+      ui.fontSize = attr.size;
+    }
+
     [Connect(typeof(AlignmentAttribute))]
     public void applyAlignment(AlignmentAttribute attr){
       ui.alignment = attr.alignment;
@@ -29,25 +34,6 @@ namespace uGUIs.UI {
     [Connect(typeof(ColorAttribute))]
     public void applyColor(ColorAttribute attr){
       ui.color = attr.color;
-    }
-
-    [Connect(typeof(PositionAttribute))]
-    public void applyPosition(PositionAttribute attr){
-      var rect = ui.GetComponent<RectTransform>();
-      rect.localPosition = attr.position;
-    }
-    
-    [Connect(typeof(SizeAttribute))]
-    public void applySize(SizeAttribute attr){
-      var rect = ui.GetComponent<RectTransform>();
-      rect.sizeDelta = attr.size;
-    }
-
-    [Connect(typeof(AnchorAttribute))]
-    public void applyAnchor(AnchorAttribute attr){
-      var rect = ui.GetComponent<RectTransform>();
-      rect.anchorMin = attr.min;
-      rect.anchorMax = attr.max;
     }
   }
 }
