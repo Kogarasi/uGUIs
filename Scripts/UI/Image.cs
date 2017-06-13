@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-using uGUIs.Attribute;
+﻿using uGUIs.Attribute;
 
 namespace uGUIs.UI {
   public class Image : UI<Image, UnityEngine.UI.Image> {
