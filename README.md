@@ -13,6 +13,7 @@ uGUIを利用するのを便利にするツール群
 * Attach this Script to Canvas Object
 
 ```csharp
+[ObjectName("Canvas")]
 public class SampleCanvas: uGUIs.UI.Canvas {
   [uGUIs.Attribute.Size(300,300)]
   [Identifier(1)] // Set anything object for callback.
