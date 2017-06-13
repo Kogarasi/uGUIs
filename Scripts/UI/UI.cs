@@ -15,16 +15,16 @@ namespace uGUIs.UI {
 
     public override void init(FieldInfo fieldInfo, MonoBehaviour parent){
       var name = getObjectName(fieldInfo);
-      var partsTransform = parent.transform.Find(name);
-      if(partsTransform != null){
-        ui = partsTransform.GetComponent<U>();
-      } else {
+
+      var components = parent.gameObject.GetComponentsInChildren<U>();
+      ui = components.FirstOrDefault(x=>x.gameObject.name == name);
+      if(ui == null){
         var optional = Util.Attribute.getAttributes<Attribute.OptionalAttribute>(fieldInfo);
         if(!optional.Any()){
           throw new Exception("Can't find GameObject(" + name + ")");
         }
       }
-
+      
       applyAttribute(fieldInfo);
     }
 

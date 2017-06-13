@@ -22,6 +22,17 @@ namespace uGUIs.UI {
       bindText(attr.text);
     }
 
+    [Connect(typeof(ColorTintAttribute))]
+    public void applyColorTint(ColorTintAttribute attr){
+      var colors = ui.colors;
+      colors.normalColor = attr.getNormalColor();
+      colors.highlightedColor = attr.getHighlightedColor();
+      colors.pressedColor = attr.getPressedColor();
+      colors.disabledColor = attr.getDisabledColor();
+
+      ui.colors = colors;
+    }
+
     void bindText(string text){
       var fieldInfo = Util.Expression.getInfo<Button,FieldInfo>(c=>c.innerText);
 

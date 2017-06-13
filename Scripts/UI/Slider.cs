@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
 using UnityEngine;
 
+using uGUIs.Attribute;
+
 namespace uGUIs.UI {
   public class Slider : UI<Slider, UnityEngine.UI.Slider> {
 
@@ -8,6 +10,17 @@ namespace uGUIs.UI {
       base.init(fieldInfo, parent);
 
       bindCallback(parent);
+    }
+
+    [Connect(typeof(ColorTintAttribute))]
+    public void applyColorTint(ColorTintAttribute attr){
+      var colors = ui.colors;
+      colors.normalColor = attr.getNormalColor();
+      colors.highlightedColor = attr.getHighlightedColor();
+      colors.pressedColor = attr.getPressedColor();
+      colors.disabledColor = attr.getDisabledColor();
+
+      ui.colors = colors;
     }
 
     void bindCallback(MonoBehaviour parent){
