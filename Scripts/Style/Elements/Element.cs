@@ -4,6 +4,5 @@ using UnityEngine;
 
 namespace uGUIs.Style.Element {
   public class Element : MonoBehaviour {
-    
   }
 }

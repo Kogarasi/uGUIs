@@ -21,6 +21,12 @@ namespace uGUIs.UI {
       initUI();
     }
 
+    void Update(){
+      if(runInEditMode){
+        initUI();
+      }
+    }
+
     void setupCanvas(){
       canvas = GetComponent<UnityEngine.Canvas>();
 

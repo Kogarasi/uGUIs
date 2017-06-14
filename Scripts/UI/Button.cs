@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 using uGUIs.Attribute;
+using uGUIs.Style.Element;
 
 namespace uGUIs.UI {
 
@@ -34,5 +35,9 @@ namespace uGUIs.UI {
       }
     }
 
+    [Connect(typeof(ColorElement))]
+    void applyTextColor(ColorElement elem){
+      innerText.ui.color = elem.color;
+    }
   }
 }

@@ -53,19 +53,18 @@ namespace uGUIs.UI {
       if(root==null){
         return;
       }
-      root.apply(ui);
+
+      var connectMethods = getConnectMethods();
+
+      var nodes = root.getCompatibleNode(ui.gameObject.name);
+      var elements = nodes.SelectMany(x=>x.getElements());
+
+      elements.Where(x=>connectMethods.ContainsKey(x.GetType()))
+      .ToList().ForEach(x=>connectMethods[x.GetType()].Invoke(this, new object[]{x}));
     }
 
     void applyAttribute(FieldInfo fieldInfo){
-      var flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
-      var methods = typeof(T).GetMethods(flags);
-      var connectType = typeof(Attribute.ConnectAttribute);
-
-      // Attributeが付与されているものに絞る
-      // { ConnectAttribute => Method }に加工
-      var connectMethods = methods.Where(x=>x.GetCustomAttributes(connectType, true).Any())
-      .Select(x=> new { method = x, attr = x.GetCustomAttributes(connectType, true).First() as Attribute.ConnectAttribute })
-      .ToDictionary(x=>x.attr.type, x=>x.method);
+      var connectMethods = getConnectMethods();
 
       var classAttributes = typeof(T).GetCustomAttributes(false) as System.Attribute[];
       var fieldAttributes = fieldInfo.GetCustomAttributes(false) as System.Attribute[];
@@ -75,6 +74,16 @@ namespace uGUIs.UI {
       .ToList().ForEach(x=>connectMethods[x.GetType()].Invoke(this, new object[]{x}));
 
     }
+
+    Dictionary<Type, MethodInfo> getConnectMethods(){
+      var flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+      var methods = typeof(T).GetMethods(flags);
+      var connectType = typeof(Attribute.ConnectAttribute);
+
+      return methods.Where(x=>x.GetCustomAttributes(connectType, true).Any())
+      .Select(x=> new { method = x, attr = x.GetCustomAttributes(connectType, true).First() as Attribute.ConnectAttribute })
+      .ToDictionary(x=>x.attr.type, x=>x.method);
+    }    
 
     protected MethodInfo getCallbackMethod(MonoBehaviour parent, Type uiType){
       var flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
