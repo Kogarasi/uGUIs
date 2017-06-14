@@ -15,7 +15,6 @@ uGUIを利用するのを便利にするツール群
 using uGUIs.Attribute;
 
 public class SampleCanvas: uGUIs.UI.Canvas {
-  [Size(300,300)]
   [Identifier(1)] // Set anything object for callback.
   uGUIs.UI.Button Button = new uGUIs.UI.Button(); // name-based binding.
   
