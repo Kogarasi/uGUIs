@@ -14,11 +14,11 @@ namespace uGUIs.UI {
     public U ui;
     protected object identifier;
 
-    public override void init(FieldInfo fieldInfo, MonoBehaviour parent){
+    public override void init(FieldInfo fieldInfo, MonoBehaviour parent, Style.Constructor styleRoot){
       var name = getObjectName(fieldInfo);
 
       var components = parent.gameObject.GetComponentsInChildren<U>();
-      ui = components.FirstOrDefault(x=>x.gameObject.name == name);
+      ui = components.FirstOrDefault(x=>x.gameObject.name.Split('.').First() == name);
       if(ui == null){
         var optional = Util.Attribute.getAttributes<Attribute.OptionalAttribute>(fieldInfo);
         if(!optional.Any()){
@@ -26,8 +26,13 @@ namespace uGUIs.UI {
         }
       }
       
+      bindChild(styleRoot);
+
+      applyStyle(styleRoot);
       applyAttribute(fieldInfo);
     }
+
+    public override void bindChild(Style.Constructor styleRoot){}
 
     string getObjectName(FieldInfo fieldInfo){
       var name = fieldInfo.Name;
@@ -44,6 +49,13 @@ namespace uGUIs.UI {
       return name;      
     }
 
+    void applyStyle(Style.Constructor root){
+      if(root==null){
+        return;
+      }
+      root.apply(ui);
+    }
+
     void applyAttribute(FieldInfo fieldInfo){
       var flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
       var methods = typeof(T).GetMethods(flags);
@@ -55,7 +67,7 @@ namespace uGUIs.UI {
       .Select(x=> new { method = x, attr = x.GetCustomAttributes(connectType, true).First() as Attribute.ConnectAttribute })
       .ToDictionary(x=>x.attr.type, x=>x.method);
 
-      var classAttributes = typeof(T).GetCustomAttributes(false) as System.Attribute[];   
+      var classAttributes = typeof(T).GetCustomAttributes(false) as System.Attribute[];
       var fieldAttributes = fieldInfo.GetCustomAttributes(false) as System.Attribute[];
       var attributes = classAttributes.Concat(fieldAttributes);
 
@@ -83,36 +95,6 @@ namespace uGUIs.UI {
     [Connect(typeof(IdentifierAttribute))]
     public void applyIdentifier(IdentifierAttribute attr){
       identifier = attr.identifier;
-    }
-
-    [Connect(typeof(PositionAttribute))]
-    public void applyPosition(PositionAttribute attr){
-      var rect = ui.GetComponent<RectTransform>();
-      rect.localPosition = attr.position;
-    }
-    
-    [Connect(typeof(SizeAttribute))]
-    public void applySize(SizeAttribute attr){
-      var rect = ui.GetComponent<RectTransform>();
-      rect.sizeDelta = attr.size;
-    }
-
-    [Connect(typeof(AnchorAttribute))]
-    public void applyAnchor(AnchorAttribute attr){
-      var rect = ui.GetComponent<RectTransform>();
-      rect.anchorMin = attr.min;
-      rect.anchorMax = attr.max;
-    }
-
-    [Connect(typeof(OutlineAttribute))]
-    public void applyOutline(OutlineAttribute attr){
-      var outline = ui.GetComponent<Outline>();
-      if(outline == null){
-        outline = ui.gameObject.AddComponent<Outline>();
-      }
-
-      outline.effectColor = attr.color;
-      outline.effectDistance = attr.distance;
     }
   }
 }

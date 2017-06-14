@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,15 +8,17 @@ using uGUIs.Extension;
 
 namespace uGUIs.UI {
 
-  //[ExecuteInEditMode]
+  [ExecuteInEditMode]
   public class Canvas : MonoBehaviour {
-    public UnityEngine.Canvas canvas;
+    public Style.Constructor styleRoot;
+
+    UnityEngine.Canvas canvas;
 
     void Awake(){
       setupCanvas();
       setupScaler();
 
-      scanUI();
+      initUI();
     }
 
     void setupCanvas(){
@@ -42,14 +42,14 @@ namespace uGUIs.UI {
       scalerComponent.apply(scalerAttr);
     }
 
-    void scanUI(){
+    void initUI(){
       var flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
       var fields = this.GetType().GetFields(flags);
       var uiInfo = fields.Where((x)=>typeof(UIBase).IsAssignableFrom(x.FieldType));
 
       uiInfo.ToList().ForEach((x)=>{
         var ui = x.GetValue(this) as UIBase;
-        ui.init(x, this);
+        ui.init(x, this, styleRoot);
       });
     }
 

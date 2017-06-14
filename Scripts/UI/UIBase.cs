@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace uGUIs.UI{
   public abstract class UIBase {
-    public abstract void init(FieldInfo fieldInfo, MonoBehaviour parent);
+    public abstract void init(FieldInfo fieldInfo, MonoBehaviour parent, Style.Constructor styleRoot);
+    public abstract void bindChild(Style.Constructor styleRoot);
   }
 }
