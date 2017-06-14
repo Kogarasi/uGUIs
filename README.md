@@ -1,12 +1,17 @@
 # uGUIs - uGUI Support Tools
 
-uGUIを利用するのを便利にするツール群
+## What's this?
 
-* Auto Binding UI Components.
+uGUIs is useful plugin for uGUI.
+
+### Feature
+
+* Auto Binding UI.
+* Dynamic Styling UI.
 
 ## How to use
 
-### Basic
+### Auto-Binding
 
 * Create UI Button from GameObject->UI->Button
 * Attach this Script to Canvas Object
@@ -15,18 +20,13 @@ uGUIを利用するのを便利にするツール群
 using uGUIs.Attribute;
 
 public class SampleCanvas: uGUIs.UI.Canvas {
-  [Identifier(1)] // Set anything object for callback.
-  uGUIs.UI.Button Button = new uGUIs.UI.Button(); // name-based binding.
+
+  [Identifier(1)] // all types supported.
+  uGUIs.UI.Button Button = new uGUIs.UI.Button();
   
-  [Callback(typeof(uGUIs.UI.Button), 1] // 2nd Parameter is identifier.
-  void onClickCallback(object identifier){
-    Debug.Log("Clicked");
+  [Callback(typeof(uGUIs.UI.Button), 1]
+  void onClick(int identifier){
+    Debug.Log(identifier); // display "1"
   }
 }
 ```
-
-### Advanced
-
-1. use ui component in your code without Canvas Component
-2. inherit-class for UI Components
-
