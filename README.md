@@ -3,7 +3,6 @@
 uGUIを利用するのを便利にするツール群
 
 * Auto Binding UI Components.
-* Attribute-base Styling Feature.
 
 ## How to use
 
