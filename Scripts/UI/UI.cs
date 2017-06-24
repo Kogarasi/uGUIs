@@ -14,7 +14,7 @@ namespace uGUIs.UI {
     public U ui;
     protected object identifier;
 
-    public override void init(FieldInfo fieldInfo, MonoBehaviour parent, Style.Constructor styleRoot){
+    public override void init(FieldInfo fieldInfo, MonoBehaviour parent, Style.Style styleRoot){
       var name = getObjectName(fieldInfo);
 
       var components = parent.gameObject.GetComponentsInChildren<U>();
@@ -30,9 +30,24 @@ namespace uGUIs.UI {
 
       applyStyle(styleRoot);
       applyAttribute(fieldInfo);
+
+      if(Application.isPlaying){
+        if( this is Interface.Callback ){
+          var callback = this as Interface.Callback;
+          callback.bind(parent);
+        }
+      }
     }
 
-    public override void bindChild(Style.Constructor styleRoot){}
+    public override void deinit(){
+      if( this is Interface.Callback ){
+        var callback = this as Interface.Callback;
+
+        callback.unbind();
+      }
+    }
+
+    public override void bindChild(Style.Style styleRoot){}
 
     string getObjectName(FieldInfo fieldInfo){
       var name = fieldInfo.Name;
@@ -49,7 +64,7 @@ namespace uGUIs.UI {
       return name;      
     }
 
-    void applyStyle(Style.Constructor root){
+    void applyStyle(Style.Style root){
       if(root==null){
         return;
       }
@@ -66,8 +81,8 @@ namespace uGUIs.UI {
     void applyAttribute(FieldInfo fieldInfo){
       var connectMethods = getConnectMethods();
 
-      var classAttributes = typeof(T).GetCustomAttributes(false) as System.Attribute[];
-      var fieldAttributes = fieldInfo.GetCustomAttributes(false) as System.Attribute[];
+      var classAttributes = typeof(T).GetCustomAttributes(false);
+      var fieldAttributes = fieldInfo.GetCustomAttributes(false);
       var attributes = classAttributes.Concat(fieldAttributes);
 
       attributes.Where(x=>connectMethods.ContainsKey(x.GetType()))

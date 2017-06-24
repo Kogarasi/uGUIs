@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 namespace uGUIs.Style {
 
-  public class Constructor : MonoBehaviour {
+  public class Style : MonoBehaviour {
     public IEnumerable<Node> getCompatibleNode(string name) {
       var nodes = gameObject.GetComponentsInChildren<Node>();
       var index = nodes.ToDictionary(x=>x.gameObject.name, x=>x);

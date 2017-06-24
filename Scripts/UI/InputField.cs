@@ -2,24 +2,29 @@
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 using uGUIs.Attribute;
 
 namespace uGUIs.UI {
-  public class InputField : UI<InputField, UnityEngine.UI.InputField> {
+  public class InputField : UI<InputField, UnityEngine.UI.InputField>, Interface.Callback {
 
-    public override void init(FieldInfo fieldInfo, MonoBehaviour parent, Style.Constructor styleRoot){
-      base.init(fieldInfo, parent, styleRoot);
+    UnityAction<String> onValueChangedCallback;
 
-      bindCallback(parent);
-    }
-
-    void bindCallback(MonoBehaviour parent){
+    public void bind(MonoBehaviour parent){
       var callbackMethod = getCallbackMethod(parent, typeof(InputField));
       if(callbackMethod != null){
-        ui.onValueChanged.AddListener((value)=>{
+        onValueChangedCallback = (value)=>{
           callbackMethod.Invoke(parent, new object[]{this.identifier, value});
-        });
+        };
+
+        ui.onValueChanged.AddListener(onValueChangedCallback);
+      }
+    }
+
+    public void unbind(){
+      if(onValueChangedCallback != null){
+        ui.onValueChanged.RemoveListener(onValueChangedCallback);
       }
     }
   }

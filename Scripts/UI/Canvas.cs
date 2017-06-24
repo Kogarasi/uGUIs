@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,9 +13,10 @@ namespace uGUIs.UI {
 
   [ExecuteInEditMode]
   public class Canvas : MonoBehaviour {
-    public Style.Constructor styleRoot;
+    public Style.Style styleRoot;
 
     UnityEngine.Canvas canvas;
+    List<FieldInfo> uiInfo;
 
     void Awake(){
       setupCanvas();
@@ -21,10 +25,15 @@ namespace uGUIs.UI {
       initUI();
     }
 
+    [Conditional("UNITY_EDITOR")]
     void Update(){
-      if(runInEditMode){
+      if(!Application.isPlaying){
         initUI();
       }
+    }
+
+    void OnDestroy(){
+      deinitUI();
     }
 
     void setupCanvas(){
@@ -51,11 +60,22 @@ namespace uGUIs.UI {
     void initUI(){
       var flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
       var fields = this.GetType().GetFields(flags);
-      var uiInfo = fields.Where((x)=>typeof(UIBase).IsAssignableFrom(x.FieldType));
+      uiInfo = fields.Where((x)=>typeof(UIBase).IsAssignableFrom(x.FieldType)).ToList();
 
-      uiInfo.ToList().ForEach((x)=>{
+      uiInfo.ForEach((x)=>{
         var ui = x.GetValue(this) as UIBase;
         ui.init(x, this, styleRoot);
+      });
+    }
+
+    void deinitUI(){
+      if(uiInfo == null){
+        return;
+      }
+
+      uiInfo.ForEach((x)=>{
+        var ui = x.GetValue(this) as UIBase;
+        ui.deinit();
       });
     }
 
