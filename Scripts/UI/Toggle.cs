@@ -7,7 +7,7 @@ using uGUIs.Attribute;
 using uGUIs.Style.Element;
 
 namespace uGUIs.UI {
-  public class Toggle : UI<Toggle, UnityEngine.UI.Toggle> {
+  public class Toggle : UI<Toggle, UnityEngine.UI.Toggle>, Interface.Callback {
 
     [ObjectName("Label")]
     [Optional]
