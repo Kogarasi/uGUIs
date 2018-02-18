@@ -60,5 +60,10 @@ namespace uGUIs.UI {
       colors.disabledColor = elem.disabled;
       ui.colors = colors;
     }
+
+    [Connect(typeof(ImageElement))]
+    void applyImage(ImageElement element){
+      ui.GetComponent<UnityEngine.UI.Image>().sprite = element.sprite;
+    }
   }
 }
